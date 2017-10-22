@@ -212,7 +212,7 @@ class WebClient
     stream.pairs.add node
     node.pairs.add stream
     @logScreens.each (screen) ->
-      screen.addPair stream, node if screen.hasPair stream, node
+      screen.addPair stream, node if not screen.hasPair stream, node
 
   _newLog: (msg) =>
     {stream, node, level, message} = msg
@@ -422,6 +422,7 @@ class ObjectGroupHeader extends backbone.View
 
   events:
     "click input": "_toggleScreen"
+    "dblclick": "_toggleItems"
 
   _toggleScreen: (e) =>
     checkbox = $ e.currentTarget
@@ -433,6 +434,9 @@ class ObjectGroupHeader extends backbone.View
         screen.addPair stream, node
       else
         screen.removePair stream, node
+
+  _toggleItems: (e) =>
+    this.$el.parent().find('.items').fadeToggle()
 
   _ping: =>
     @diode.addClass 'ping'

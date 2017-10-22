@@ -48,12 +48,11 @@ class _LogObject
     @addPair pname for pname in _pairs
 
   addPair: (pname) ->
-    if not pair = @pairs[pname]
-      if not pair = @pcollection[pname]
-        pair = @pcollection[pname] = new @pclass @logServer, pname
-      pair.pairs[@name] = @
-      @pairs[pname] = pair
-      @logServer.emit "add_#{@_type}_pair", @, pname
+    if not pair = @pcollection[pname]
+      pair = @pcollection[pname] = new @pclass @logServer, pname
+    pair.pairs[@name] = @
+    @pairs[pname] = pair
+    @logServer.emit "add_#{@_type}_pair", @, pname
 
   remove: ->
     @logServer.emit "remove_#{@_type}", @
@@ -151,7 +150,7 @@ class LogServer extends events.EventEmitter
     @_log.info "Adding #{objName}: #{name} (#{pnames})"
     pnames = pnames.split ','
     obj = _collection[name] = _collection[name] or new _objClass @, name, pnames
-    obj.addPair p for p in pnames when not obj.pairs[p]
+    obj.addPair p for p in pnames
 
   __remove: (name, _collection, objType) ->
     if obj = _collection[name]
