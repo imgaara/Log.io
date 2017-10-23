@@ -212,7 +212,7 @@ class WebClient
     stream.pairs.add node
     node.pairs.add stream
     @logScreens.each (screen) ->
-      screen.addPair stream, node if not screen.hasPair stream, node
+      screen.addPair stream, node
 
   _newLog: (msg) =>
     {stream, node, level, message} = msg
@@ -300,13 +300,13 @@ class LogControlPanel extends backbone.View
       logScreens: @logScreens
       getPair: (object, item) -> [object, item]
       id: 'log_control_streams'
+      attributes:
+        style: 'display: none'
     @nodes = new ObjectControls
       objects: @logNodes
       logScreens: @logScreens
       getPair: (object, item) -> [item, object]
       id: 'log_control_nodes'
-      attributes:
-        style: 'display: none'
 
   events:
     "click a.select_mode": "_toggleMode"
